@@ -8,6 +8,15 @@ const Hero = styled.section`
   background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
   background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
   position: relative;
+  @media (max-width: 1000px) {
+		height: 500px;
+	}
+  @media (max-width: 800px) {
+		height: 400px;
+	}
+  @media (max-width: 600px) {
+		height: 300px;
+	}
 `
 
 const TitleWrap = styled.div`
@@ -30,6 +39,17 @@ const Title = styled.h1`
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   // margin-top: -150px;
   margin: 0;
+  text-align: center;
+  line-height: 1.2;
+  @media (max-width: 1000px) {
+		font-size: 80px;
+	}
+  @media (max-width: 800px) {
+		font-size: 60px;
+	}
+  @media (max-width: 600px) {
+		font-size: 40px;
+	}
 `
 
 const SubTitle = styled.h2`
@@ -37,6 +57,16 @@ const SubTitle = styled.h2`
   font-weight: 400;
   font-size: 46px;
   margin: 0;
+  line-height: 1.2;
+  @media (max-width: 1000px) {
+		font-size: 36px;
+	}
+  @media (max-width: 800px) {
+		font-size: 26px;
+	}
+  @media (max-width: 600px) {
+		font-size: 20px;
+	}
 `
 
 const Blueprint = styled.svg`

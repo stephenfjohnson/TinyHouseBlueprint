@@ -15,6 +15,7 @@ const Logo = styled.a`
   align-items: center;
   flex: 2;
   padding-left: 20px;
+  cursor: pointer;
 `
 
 const Nav = styled.nav`

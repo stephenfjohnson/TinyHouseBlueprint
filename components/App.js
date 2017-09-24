@@ -30,6 +30,9 @@ export default ({ children }) => (
       button:focus {
         outline: none;
       }
+      a {
+        text-decoration: none;
+      }
     `}</style>
   </div>
 )
