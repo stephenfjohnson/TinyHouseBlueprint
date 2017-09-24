@@ -89,9 +89,10 @@ function CardList ({ data: { loading, error, allPosts, _allPostsMeta }, loadMore
         <Wrapper>
           <CardWrapper>
             {allPosts.map((post, index) =>
-              <Card key={post.id} style={{background: `url(${post.imagePath}) center center / cover no-repeat`}}>
+              <Card key={post.id} style={{background: `url(${post.image.url}) center center / cover no-repeat`}}>
                 <CardTitleWrapper>
                   {/* <span>{index + 1}</span> */}
+                  <img src={post.imageUrl} alt=""/>
                   <a href={post.url}><Title>{post.title}</Title></a>
                   <PostUpvoter id={post.id} votes={post.votes} />
                 </CardTitleWrapper>
@@ -115,6 +116,10 @@ const allPosts = gql`
       url
       imagePath
       createdAt
+      image {
+        id
+        url
+      }
     },
     _allPostsMeta {
       count

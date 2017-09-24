@@ -1,6 +1,7 @@
+import React from 'react'
 import { gql, graphql } from 'react-apollo'
 import styled from 'styled-components'
-// import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone'
 
 const SubmitPost = styled.section`
   background-color: rgba(255, 255, 255, 0.9);
@@ -47,16 +48,22 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `
 
-function Submit ({ createPost }) {
-  function handleSubmit (e) {
+class Submit extends React.Component {
+  state = {
+    imageId: '',
+    imageUrl: '',
+  }
+  handleSubmit = (e) => {
     e.preventDefault()
 
     let title = e.target.elements.title.value
     let url = e.target.elements.url.value
     let imagePath = e.target.elements.imagePath.value
-    let file = e.target.elements.file.value
+    // let file = e.target.elements.file.value
 
-    if (title === '' || url === '' || imagePath === '' || file === '') {
+    // console.log(e.target.elements.file);
+
+    if (title === '' || url === '' || imagePath === '') {
       window.alert('All fields are required.')
       return false
     }
@@ -66,7 +73,28 @@ function Submit ({ createPost }) {
       url = `http://${url}`
     }
 
-    // createPost(title, url, imagePath, image)
+    // let data = new FormData()
+    // // console.log(`data`) // [object FormData]
+    // // console.log(`DATA!!!!!${file}`)
+    // data.append('data', file)
+    // // use the file endpoint
+    // console.log(file);
+    // console.log(data)
+    // fetch('https://api.graph.cool/file/v1/cj7r6gphd0kf40132l8g4ndvl', {
+    //   method: 'POST',
+    //   body: data
+    // }).then(response => {
+    //   return response.json()
+    // }).then(image => {
+    //   createPost(title, url, imagePath, imageId)
+    //   console.log(`Success!!!`)
+    //   this.setState({
+    //     imageId: image.id,
+    //     imageUrl: image.url,
+    //   })
+    // })
+
+    this.props.createPost(title, url, imagePath, this.state.imageId)
 
     // reset form
     // e.target.elements.title.value = ''
@@ -74,58 +102,85 @@ function Submit ({ createPost }) {
     // e.target.elements.imagePath.value = ''
     // e.target.elements.image.value = ''
 
-    console.log(`Title: ${title}`);
-    console.log(`URL: ${url}`);
-    console.log(`Image Path: ${imagePath}`);
-    console.log(`File: ${file}`);
-    console.log(`⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ Blem: ${file[0]}`);
+    // console.log(`Title: ${title}`);
+    // console.log(`URL: ${url}`);
+    // console.log(`Image Path: ${imagePath}`);
+    // console.log(`File: ${file}`);
+    // console.log(`⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ Blem: ${file[0]}`);
 
 
     // Image Upload Stuff!!!!!!!
 
-    createPost = (title, url, imagePath, file) => {
-      // prepare form data, use data key!
-      let data = new FormData()
-      console.log(`DATA!!!!!${data}`);
-      console.log(`DATA!!!!!${file}`);
-      data.append('data', file)
+    // uploadImage = (file) => {
+    //   // prepare form data, use data key!
+    //   let data = new FormData()
+    //   console.log(`DATA!!!!!${data}`);
+    //   console.log(`DATA!!!!!${file}`);
+    //   data.append('data', file)
+    //
+    //   console.log(`Data Whatever 🍰 🍰 🍰 🍰 🍰${data}`);
 
-      console.log(`Data Whatever 🍰 🍰 🍰 🍰 🍰${data}`);
-
-      // use the file endpoint
-      fetch('https://api.graph.cool/file/v1/cj7r6gphd0kf40132l8g4ndvl', {
-        method: 'POST',
-        body: data
-      }).then(response => {
-        return response.json()
-      }).then(image => {
-        this.setState({
-          imageId: image.id,
-          imageUrl: image.url,
-        })
-      })
+      // // use the file endpoint
+      // fetch('https://api.graph.cool/file/v1/cj7r6gphd0kf40132l8g4ndvl', {
+      //   method: 'POST',
+      //   body: data
+      // }).then(response => {
+      //   return response.json()
+      // }).then(image => {
+      //   this.setState({
+      //     imageId: image.id,
+      //     imageUrl: image.url,
+      //   })
+      // })
 
     }
 
+
+  onDrop = (files) => {
+    // prepare form data, use data key!
+    let data = new FormData()
+    data.append('data', files[0])
+
+    // use the file endpoint
+    fetch('https://api.graph.cool/file/v1/cj7r6gphd0kf40132l8g4ndvl', {
+      method: 'POST',
+      body: data
+    }).then(response => {
+      return response.json()
+    }).then(image => {
+      this.setState({
+        imageId: image.id,
+        imageUrl: image.url,
+      })
+    })
   }
 
-  return (
-    <SubmitPost>
-      <Form onSubmit={handleSubmit}>
-        <h1>Submit</h1>
-        <p>Add a entry to Tiny House Blueprint.</p>
-        <Label name='title'>Title of Blueprint</Label>
-        <Input placeholder='title' name='title' />
-        <Label name='url'>Add url to Blueprint</Label>
-        <Input placeholder='example.com' name='url' />
-        <Label name='image_link'>Image Link</Label>
-        <Input placeholder='This field will be removed' name='imagePath' />
-        <Label name='image'>Upload image</Label>
-        <Input type="file" name='file' />
-        <SubmitButton type='submit'>Submit</SubmitButton>
-      </Form>
-    </SubmitPost>
-  )
+  render (){
+    return (
+      <SubmitPost>
+        <Form onSubmit={this.handleSubmit}>
+          <h1>Submit</h1>
+          <p>Add a entry to Tiny House Blueprint.</p>
+          <Label name='title'>Title of Blueprint</Label>
+          <Input placeholder='title' name='title' />
+          <Label name='url'>Add url to Blueprint</Label>
+          <Input placeholder='example.com' name='url' />
+          <Label name='image_link'>Image Link</Label>
+          <Input placeholder='This field will be removed' name='imagePath' />
+          <Label name='image'>Upload image</Label>
+          {/* <Input type="file" name='file' /> */}
+          <Dropzone
+              onDrop={this.onDrop}
+              accept='image/*'
+              multiple={false}
+            >
+              <div>Drop an image or click to choose</div>
+            </Dropzone>
+          <SubmitButton type='submit'>Submit</SubmitButton>
+        </Form>
+      </SubmitPost>
+    )
+  }
 }
 
 const createPost = gql`
@@ -137,16 +192,17 @@ const createPost = gql`
       url
       imagePath
       createdAt
-      image
-        url
+      image {
+        id
+      }
     }
   }
 `
 
 export default graphql(createPost, {
   props: ({ mutate }) => ({
-    createPost: (title, url, imagePath, image) => mutate({
-      variables: { title, url, imagePath, image },
+    createPost: (title, url, imagePath, imageId) => mutate({
+      variables: { title, url, imagePath, imageId },
       updateQueries: {
         allPosts: (previousResult, { mutationResult }) => {
           const newPost = mutationResult.data.createPost
