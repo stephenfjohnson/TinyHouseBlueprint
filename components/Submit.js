@@ -32,6 +32,14 @@ const Input = styled.input`
   padding: 10px;
 `
 
+const Textarea = styled.textarea`
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #EDEDED;
+  font-size: 1.1rem;
+  padding: 10px;
+`
+
 const Label = styled.label`
   margin-bottom: 5px;
 `
@@ -58,12 +66,12 @@ class Submit extends React.Component {
 
     let title = e.target.elements.title.value
     let url = e.target.elements.url.value
-    let imagePath = e.target.elements.imagePath.value
+    let description = e.target.elements.description.value
     // let file = e.target.elements.file.value
 
     // console.log(e.target.elements.file);
 
-    if (title === '' || url === '' || imagePath === '') {
+    if (title === '' || url === '' || description === '') {
       window.alert('All fields are required.')
       return false
     }
@@ -73,65 +81,7 @@ class Submit extends React.Component {
       url = `http://${url}`
     }
 
-    // let data = new FormData()
-    // // console.log(`data`) // [object FormData]
-    // // console.log(`DATA!!!!!${file}`)
-    // data.append('data', file)
-    // // use the file endpoint
-    // console.log(file);
-    // console.log(data)
-    // fetch('https://api.graph.cool/file/v1/cj7r6gphd0kf40132l8g4ndvl', {
-    //   method: 'POST',
-    //   body: data
-    // }).then(response => {
-    //   return response.json()
-    // }).then(image => {
-    //   createPost(title, url, imagePath, imageId)
-    //   console.log(`Success!!!`)
-    //   this.setState({
-    //     imageId: image.id,
-    //     imageUrl: image.url,
-    //   })
-    // })
-
-    this.props.createPost(title, url, imagePath, this.state.imageId)
-
-    // reset form
-    // e.target.elements.title.value = ''
-    // e.target.elements.url.value = ''
-    // e.target.elements.imagePath.value = ''
-    // e.target.elements.image.value = ''
-
-    // console.log(`Title: ${title}`);
-    // console.log(`URL: ${url}`);
-    // console.log(`Image Path: ${imagePath}`);
-    // console.log(`File: ${file}`);
-    // console.log(`⚡️ ⚡️ ⚡️ ⚡️ ⚡️ ⚡️ Blem: ${file[0]}`);
-
-
-    // Image Upload Stuff!!!!!!!
-
-    // uploadImage = (file) => {
-    //   // prepare form data, use data key!
-    //   let data = new FormData()
-    //   console.log(`DATA!!!!!${data}`);
-    //   console.log(`DATA!!!!!${file}`);
-    //   data.append('data', file)
-    //
-    //   console.log(`Data Whatever 🍰 🍰 🍰 🍰 🍰${data}`);
-
-      // // use the file endpoint
-      // fetch('https://api.graph.cool/file/v1/cj7r6gphd0kf40132l8g4ndvl', {
-      //   method: 'POST',
-      //   body: data
-      // }).then(response => {
-      //   return response.json()
-      // }).then(image => {
-      //   this.setState({
-      //     imageId: image.id,
-      //     imageUrl: image.url,
-      //   })
-      // })
+    this.props.createPost(title, url, description, this.state.imageId)
 
     }
 
@@ -165,8 +115,8 @@ class Submit extends React.Component {
           <Input placeholder='title' name='title' />
           <Label name='url'>Add url to Blueprint</Label>
           <Input placeholder='example.com' name='url' />
-          <Label name='image_link'>Image Link</Label>
-          <Input placeholder='This field will be removed' name='imagePath' />
+          <Label name='description'>Description</Label>
+          <Textarea placeholder='Two sentences that summerise the blueprint or inspiration' name='description' />
           <Label name='image'>Upload image</Label>
           {/* <Input type="file" name='file' /> */}
           <Dropzone
@@ -184,16 +134,17 @@ class Submit extends React.Component {
 }
 
 const createPost = gql`
-  mutation createPost($title: String!, $url: String!, $imagePath: String!, $imageId: ID!) {
-    createPost(title: $title, url: $url, imagePath: $imagePath, imageId: $imageId) {
+  mutation createPost($title: String!, $url: String!, $description: String, $imageId: ID!) {
+    createPost(title: $title, url: $url, description: $description, imageId: $imageId) {
       id
       title
       votes
       url
-      imagePath
+      description
       createdAt
       image {
         id
+        url
       }
     }
   }
@@ -201,8 +152,8 @@ const createPost = gql`
 
 export default graphql(createPost, {
   props: ({ mutate }) => ({
-    createPost: (title, url, imagePath, imageId) => mutate({
-      variables: { title, url, imagePath, imageId },
+    createPost: (title, url, description, imageId) => mutate({
+      variables: { title, url, description, imageId },
       updateQueries: {
         allPosts: (previousResult, { mutationResult }) => {
           const newPost = mutationResult.data.createPost

@@ -23,6 +23,7 @@ const Card = styled.div`
   background-size: cover;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
   flex: 1 100%;
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.1);
@@ -55,10 +56,22 @@ const Ad = styled.div`
   }
 `
 
+const CardDescription = styled.div`
+  background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+  display: flex;
+  flex-grow: 2;
+  align-items: center;
+  padding: 20px;
+  color: #FFF;
+  &:hover {
+    display: flex;
+  }
+`
+
 const CardTitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  // width: 100%;
   background-image: radial-gradient(50% 100%, #414141 0%, #000000 100%);
   padding: 20px;
   border-bottom-right-radius: 5px;
@@ -90,10 +103,13 @@ function CardList ({ data: { loading, error, allPosts, _allPostsMeta }, loadMore
           <CardWrapper>
             {allPosts.map((post, index) =>
               <Card key={post.id} style={{background: `url(${post.image.url}) center center / cover no-repeat`}}>
+                {/* <span>{post.description}</span> */}
+                <CardDescription>
+                  <span>{post.description}</span>
+                </CardDescription>
                 <CardTitleWrapper>
                   {/* <span>{index + 1}</span> */}
-                  <img src={post.imageUrl} alt=""/>
-                  <a href={post.url}><Title>{post.title}</Title></a>
+                  <a target='_blank' href={post.url}><Title>{post.title}</Title></a>
                   <PostUpvoter id={post.id} votes={post.votes} />
                 </CardTitleWrapper>
               </Card>
@@ -114,7 +130,7 @@ const allPosts = gql`
       title
       votes
       url
-      imagePath
+      description
       createdAt
       image {
         id
