@@ -46,6 +46,7 @@ const NavItemLink = styled.a`
   color: #000;
   text-decoration: none;
   cursor: pointer;
+  font-size: 1em;
   &:hover {
     text-decoration: line-through;
   }
@@ -55,9 +56,15 @@ const NavItemLink = styled.a`
     margin-right: 20px;
     color: #FFF;
   }
-  @media (max-width: 700px) {
+  @media (max-width: 780px) {
+    letter-spacing: 2px;
+		padding: 10px 5px;
+    font-size: 1em;
+	}
+  @media (max-width: 600px) {
     letter-spacing: 1px;
 		padding: 10px 5px;
+    font-size: .5em;
 	}
 `
 

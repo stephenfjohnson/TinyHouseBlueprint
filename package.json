@@ -19,5 +19,14 @@
     "styled-components": "^2.1.2"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.2.0"
+  },
+  "plugins": [
+    ["babel-plugin-styled-components", {
+      "ssr": true,
+      "displayName": true
+    }]
+  ]
 }

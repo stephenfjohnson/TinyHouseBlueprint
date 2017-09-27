@@ -57,10 +57,27 @@ const SubmitButton = styled.button`
 `
 
 class Submit extends React.Component {
+
   state = {
+    title: '',
+    url: '',
+    description: '',
     imageId: '',
     imageUrl: '',
   }
+
+  // handleTitleChange = (evt) {
+  //   this.setState({ title: evt.target.value })
+  // }
+  //
+  // handleUrlChange = (evt) {
+  //   this.setState({ url: evt.target.value })
+  // }
+  //
+  // handleDescriptionChange = (evt) {
+  //   this.setState({ description: evt.target.value })
+  // }
+
   handleSubmit = (e) => {
     e.preventDefault()
 
@@ -68,6 +85,8 @@ class Submit extends React.Component {
     let url = e.target.elements.url.value
     let description = e.target.elements.description.value
     // let file = e.target.elements.file.value
+
+
 
     // console.log(e.target.elements.file);
 
@@ -97,7 +116,26 @@ class Submit extends React.Component {
       body: data
     }).then(response => {
       return response.json()
+      console.log(response);
     }).then(image => {
+
+      alert(`Image is Uploaded 👊`)
+      // console.log(`Upload Complete`)
+      // console.log(data)
+
+      // console.log(imageUrl);
+      // return this.props.EnableSubmit
+
+      // if (image) {
+      //   isUploaded = true
+      //   console.log(`Uploaded: ${isUploaded}`)
+      // } else {
+      //   isUploaded = false
+      //   console.log(`Not uploaded: ${isUploaded} `)
+      // }
+
+
+
       this.setState({
         imageId: image.id,
         imageUrl: image.url,
@@ -106,6 +144,14 @@ class Submit extends React.Component {
   }
 
   render (){
+    // if (isUploaded === true) {
+    //   <SubmitButton type='submit'>Submit</SubmitButton>
+    // } else {
+    //   <SubmitButton disabled type='submit'>Uploading</SubmitButton>
+    // }
+
+    const { title, url, description } = this.state
+    const isEnabled = title.length > 0 && url.length > 0 && description.length > 0 && isUploaded === true
     return (
       <SubmitPost>
         <Form onSubmit={this.handleSubmit}>
@@ -126,7 +172,7 @@ class Submit extends React.Component {
             >
               <div>Drop an image or click to choose</div>
             </Dropzone>
-          <SubmitButton type='submit'>Submit</SubmitButton>
+            <SubmitButton type='submit'>Submit</SubmitButton>
         </Form>
       </SubmitPost>
     )

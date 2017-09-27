@@ -3,12 +3,14 @@ import styled from 'styled-components'
 const SearchButtons = styled.section`
   position: relative;
   margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
 `
 
 const Wrapper = styled.div`
   max-width: 1020px;
   width: 100%;
-  margin: 0 auto;
+  margin: 0 20px;
   background-color: #FBFBFB;
   border: 1px solid #EDEDED;
   border-radius: 5px;

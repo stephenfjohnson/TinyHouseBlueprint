@@ -3,12 +3,20 @@ import styled from 'styled-components'
 const Search = styled.section`
   position: relative;
   margin-top: -150px;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 990px) {
+    margin-top: -100px;
+  }
+  @media (max-width: 820px) {
+    margin-top: -50px;
+  }
 `
 
 const Wrapper = styled.div`
   max-width: 1020px;
   width: 100%;
-  margin: 0 auto;
+  margin: 0 20px;
 `
 
 const CardWrapper = styled.div`
@@ -24,9 +32,9 @@ const Card = styled.div`
   align-items: flex-end;
   flex: 1 100%;
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.09);
-  max-width: 300px;
+  max-width: 230px;
   width: 100%;
-  height: 300px;
+  height: 230px;
   background: white;
   color: black;
   border-radius: 5px;
@@ -44,6 +52,40 @@ const Card = styled.div`
     background: url(../static/rustic-1.jpg) no-repeat center center;
     background-size: cover;
   }
+  &#tropical {
+    background: url(../static/tropical-2.jpg) no-repeat center center;
+    background-size: cover;
+  }
+  @media (max-width: 990px) {
+    max-width: 200px;
+    height: 200px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 890px) {
+    max-width: 160px;
+    height: 160px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: 660px) {
+    max-width: 250px;
+    height: 250px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: 730px) {
+    max-width: 220px;
+    height: 220px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: 490px) {
+    max-width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 450px) {
+    max-width: 160px;
+    height: 160px;
+    margin-bottom: 10px;
+  }
 `
 
 const CardTitleWrapper = styled.div`
@@ -59,6 +101,15 @@ const Title = styled.h3`
   font-weight: 400;
   letter-spacing: 2px;
   margin: 0;
+  @media (max-width: 990px) {
+    font-size: 1em;
+  }
+  @media (max-width: 820px) {
+    font-size: .9em;
+  }
+  @media (max-width: 500px) {
+    font-size: .8em;
+  }
 `
 
 
@@ -79,6 +130,11 @@ export default () => (
         <Card id="rustic">
           <CardTitleWrapper>
             <Title>Rustic</Title>
+          </CardTitleWrapper>
+        </Card>
+        <Card id="tropical">
+          <CardTitleWrapper>
+            <Title>Tropical</Title>
           </CardTitleWrapper>
         </Card>
       </CardWrapper>
