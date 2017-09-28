@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           <meta charSet='utf-8' />
-          <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+          <meta name="viewport" content="width=device-width, minimum-scale = 1.0, initial-scale = 1.0, maximum-scale = 5.0, user-scalable=yes" />
           {this.props.head}
           {styleTags}
         </Head>

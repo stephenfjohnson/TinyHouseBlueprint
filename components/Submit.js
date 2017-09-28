@@ -44,6 +44,14 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
+const Select = styled.select`
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #EDEDED;
+  font-size: 1.1rem;
+  padding: 10px;
+`
+
 const SubmitButton = styled.button`
   background: #000;
   border: 1px solid #EDEDED;
@@ -56,6 +64,7 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `
 
+
 class Submit extends React.Component {
 
   state = {
@@ -65,6 +74,16 @@ class Submit extends React.Component {
     imageId: '',
     imageUrl: '',
   }
+
+  // width: 100%;
+  //   height: 200px;
+  //   border-width: 2px;
+  //   border-color: #666;
+  //   border-style: dashed;
+  //   border-radius: 5px;
+  //   padding: 20px;
+  //   box-sizing: border-box;
+  //   margin-bottom: 20px;
 
   // handleTitleChange = (evt) {
   //   this.setState({ title: evt.target.value })
@@ -84,7 +103,14 @@ class Submit extends React.Component {
     let title = e.target.elements.title.value
     let url = e.target.elements.url.value
     let description = e.target.elements.description.value
+    let style = e.target.elements.style.value
+    let mobile = e.target.elements.mobile.value
+    let type = e.target.elements.type.value
     // let file = e.target.elements.file.value
+
+    console.log(style)
+    console.log(mobile)
+    console.log(type)
 
 
 
@@ -100,9 +126,9 @@ class Submit extends React.Component {
       url = `http://${url}`
     }
 
-    this.props.createPost(title, url, description, this.state.imageId)
+    this.props.createPost(title, url, description, style, mobile, type, this.state.imageId)
 
-    }
+  }
 
 
   onDrop = (files) => {
@@ -149,9 +175,19 @@ class Submit extends React.Component {
     // } else {
     //   <SubmitButton disabled type='submit'>Uploading</SubmitButton>
     // }
-
-    const { title, url, description } = this.state
-    const isEnabled = title.length > 0 && url.length > 0 && description.length > 0 && isUploaded === true
+    const overlayStyle = {
+      width: '100%',
+      height: '200px',
+      borderWidth: '2px',
+      borderColor: '#666',
+      borderStyle: 'dashed',
+      borderRadius: '5px',
+      padding: '20px',
+      boxSizing: 'border-box',
+      marginBottom: '20px',
+    };
+    const { title, url, description, style, mobile, type } = this.state
+    // const isEnabled = title.length > 0 && url.length > 0 && description.length > 0 && isUploaded === true
     return (
       <SubmitPost>
         <Form onSubmit={this.handleSubmit}>
@@ -161,11 +197,31 @@ class Submit extends React.Component {
           <Input placeholder='title' name='title' />
           <Label name='url'>Add url to Blueprint</Label>
           <Input placeholder='example.com' name='url' />
+          <Label name='style'>Style</Label>
+          <Select name='style'>
+            <option value='contemporary'>Contemporary</option>
+            <option value='rustic'>Rustic</option>
+            <option value='luxury'>Luxury</option>
+            <option value='green-design'>Green Design</option>
+            <option value='tropical'>Tropical</option>
+            <option value='cottage'>Cottage</option>
+          </Select>
+          <Label name='mobile'>Mobile?</Label>
+          <Select name='mobile'>
+            <option value='yes'>Yes</option>
+            <option value='no'>No</option>
+          </Select>
+          <Label name='type'>Type?</Label>
+          <Select name='type'>
+            <option value='blueprint'>Blueprint</option>
+            <option value='inspiration'>Inspiration</option>
+          </Select>
           <Label name='description'>Description</Label>
-          <Textarea placeholder='Two sentences that summerise the blueprint or inspiration' name='description' />
+          <Textarea placeholder='Two sentences that summerise the blueprint or inspiration' rows='6' name='description' />
           <Label name='image'>Upload image</Label>
           {/* <Input type="file" name='file' /> */}
           <Dropzone
+              style={overlayStyle}
               onDrop={this.onDrop}
               accept='image/*'
               multiple={false}
@@ -180,14 +236,17 @@ class Submit extends React.Component {
 }
 
 const createPost = gql`
-  mutation createPost($title: String!, $url: String!, $description: String, $imageId: ID!) {
-    createPost(title: $title, url: $url, description: $description, imageId: $imageId) {
+  mutation createPost($title: String!, $url: String!, $description: String, $style: String, $mobile: String, $type: String, $imageId: ID!) {
+    createPost(title: $title, url: $url, description: $description, style: $style, mobile: $mobile, type: $type, imageId: $imageId) {
       id
       title
       votes
       url
       description
       createdAt
+      style
+      mobile
+      type
       image {
         id
         url
@@ -198,8 +257,8 @@ const createPost = gql`
 
 export default graphql(createPost, {
   props: ({ mutate }) => ({
-    createPost: (title, url, description, imageId) => mutate({
-      variables: { title, url, description, imageId },
+    createPost: (title, url, description, style, mobile, type, imageId) => mutate({
+      variables: { title, url, description, style, mobile, type, imageId },
       updateQueries: {
         allPosts: (previousResult, { mutationResult }) => {
           const newPost = mutationResult.data.createPost

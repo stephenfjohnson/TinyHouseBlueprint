@@ -30,10 +30,10 @@ const Card = styled.div`
   position: relative;
   display: flex;
   align-items: flex-end;
-  flex: 1 100%;
+  ${'' /* flex: 1 100%; */}
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.09);
-  max-width: 230px;
-  width: 100%;
+  ${'' /* max-width: 230px; */}
+  width: 23%;
   height: 230px;
   background: white;
   color: black;
@@ -56,35 +56,23 @@ const Card = styled.div`
     background: url(../static/tropical-2.jpg) no-repeat center center;
     background-size: cover;
   }
-  @media (max-width: 990px) {
-    max-width: 200px;
-    height: 200px;
-    margin-bottom: 40px;
-  }
-  @media (max-width: 890px) {
-    max-width: 160px;
-    height: 160px;
+  @media (max-width: 840px) {
+    ${'' /* max-width: 200px; */}
+    height: 180px;
     margin-bottom: 30px;
+    font-size: .9em;
   }
-  @media (max-width: 660px) {
-    max-width: 250px;
-    height: 250px;
-    margin-bottom: 30px;
-  }
-  @media (max-width: 730px) {
-    max-width: 220px;
-    height: 220px;
-    margin-bottom: 30px;
-  }
-  @media (max-width: 490px) {
-    max-width: 200px;
-    height: 200px;
+  @media (max-width: 650px) {
+    height: 120px;
     margin-bottom: 20px;
+    font-size: .8em;
   }
-  @media (max-width: 450px) {
-    max-width: 160px;
-    height: 160px;
-    margin-bottom: 10px;
+  @media (max-width: 550px) {
+    height: 120px;
+    width: 49%;
+    margin-bottom: 20px;
+    font-size: .8em;
+    ${'' /* flex-wrap: wrap; */}
   }
 `
 

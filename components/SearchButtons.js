@@ -20,9 +20,7 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   margin: 10px 20px;
-  @media (max-width: 700px) {
-    flex-wrap: wrap;
-  }
+  flex-wrap: wrap;
 `
 const FilterLabels = styled.h3`
   font-size: 1.2rem;
@@ -64,9 +62,13 @@ export default () => (
     <Wrapper>
       <Buttons>
         <FilterLabels>Filters:</FilterLabels>
-        <Filter>🌴Contemporary</Filter>
+        <Filter>🍃Contemporary</Filter>
         <Filter>🌲Rustic</Filter>
         <Filter>🍸Modern</Filter>
+        <Filter>♻️Green Design</Filter>
+        <Filter>🌴Tropical</Filter>
+        <Filter>💸Luxury</Filter>
+        <Filter>🌊Cottage</Filter>
       </Buttons>
       <Line />
       <Buttons>

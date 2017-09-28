@@ -76,6 +76,9 @@ const FeedQuery = gql`query allPosts {
     url
     description
     createdAt
+    style
+    mobile
+    type
     image {
       id
       url
