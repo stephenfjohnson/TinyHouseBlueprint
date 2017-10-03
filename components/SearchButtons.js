@@ -1,3 +1,6 @@
+import React from 'react'
+import { gql, graphql } from 'react-apollo'
+import ErrorMessage from './ErrorMessage'
 import styled from 'styled-components'
 
 const SearchButtons = styled.section`
@@ -57,25 +60,81 @@ const Line = styled.hr`
   padding: 0;
 `
 
-export default () => (
-  <SearchButtons>
-    <Wrapper>
-      <Buttons>
-        <FilterLabels>Filters:</FilterLabels>
-        <Filter>🍃Contemporary</Filter>
-        <Filter>🌲Rustic</Filter>
-        <Filter>🍸Modern</Filter>
-        <Filter>♻️Green Design</Filter>
-        <Filter>🌴Tropical</Filter>
-        <Filter>💸Luxury</Filter>
-        <Filter>🌊Cottage</Filter>
-      </Buttons>
-      <Line />
-      <Buttons>
-        <FilterLabels>Sort By:</FilterLabels>
-        <Filter>📘Blueprint</Filter>
-        <Filter>🏡Inspiration</Filter>
-      </Buttons>
-    </Wrapper>
-  </SearchButtons>
-)
+class Search extends React.Component {
+
+  // function that assigns a const from each button name.
+  // That constant is than passed into the GraphQL filter query on click
+
+
+  // Or the correct way to do it...
+  // Create new data type for each search type I.E. mobile
+  // Mobile would be created as a bool and yes or no passed to the form
+  // Filters would be a list of strings that contain emojis and using linking in GraphQL to create the relationship
+  // This would be the best practise and would future proof everything
+
+  // FUCK 🖕🏻
+
+  static propTypes = {
+    data: React.PropTypes.object,
+  }
+
+  // let contemporary = e.target.elements.button.name
+
+  // getInitialState () {
+  //   var disabled = this.state.disabled ? 'disabled' : ''
+  //   return {
+  //     disabled: false
+  //   };
+  // }
+
+  render () {
+    return (
+      <SearchButtons>
+        <Wrapper>
+          {this.props.data.allPosts.map((post) => {
+            <span>{post.style}</span>
+            // <h1>BLAAAAA</h1>
+            // <Buttons>
+            //   <FilterLabels>Filters:</FilterLabels>
+            //   <Filter>{post.id}</Filter>
+            //   <span>{post.title}</span>
+            //   <span>{post.style}</span>
+            // </Buttons>
+            console.log(`Search Buttons Return ⤵️`)
+            console.log(post.title)
+          })}
+          <Buttons>
+            <FilterLabels>Filters:</FilterLabels>
+            {/* <Filter {disabled} name='contemporary'>🍃Contemporary</Filter> */}
+            <Filter name='rustic'>🌲Rustic</Filter>
+            <Filter>🍸Modern</Filter>
+            <Filter>♻️Green Design</Filter>
+            <Filter>🌴Tropical</Filter>
+            <Filter>💸Luxury</Filter>
+            <Filter>🌊Cottage</Filter>
+          </Buttons>
+          <Line />
+          <Buttons>
+            <FilterLabels>Sort By:</FilterLabels>
+            <Filter>📘Blueprint</Filter>
+            <Filter>🏡Inspiration</Filter>
+          </Buttons>
+        </Wrapper>
+      </SearchButtons>
+    )
+  }
+}
+
+const SearchQuery = gql`query allPosts {
+  allPosts(orderBy: id_ASC) {
+    id
+    title
+    style
+    mobile
+    type
+  }
+}`
+
+const SearchItems = graphql(SearchQuery)(Search)
+
+export default SearchItems

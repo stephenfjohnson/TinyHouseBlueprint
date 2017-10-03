@@ -102,6 +102,42 @@ const Title = styled.h3`
   }
 `
 
+const TagWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+`
+
+const Tag = styled.span`
+  display: inline-block;
+  max-width: 100px;
+  ${'' /* height: 28px; */}
+  line-height: 28px;
+  padding: 0 1em;
+  margin: .3em;
+  ${'' /* background-color: #fff; */}
+  border: 1px solid #FFF;
+  ${'' /* border: 1px solid #aaa; */}
+  border-radius: 3px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #FFF;
+  font-size: 13px;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+  cursor: pointer;
+  &:hover {
+  	background-color: #269;
+  	border: 1px solid #269;
+  	color: #fff;
+  }
+`
+
+const Description = styled.p`
+  flex: 2;
+`
+
 class Post extends React.Component {
 
   static propTypes = {
@@ -109,17 +145,20 @@ class Post extends React.Component {
   }
 
   render () {
-
-    console.log(this.props.post)
+    // const image = this.props.post.image.url + '/500x'
+    // console.log(this.props.post)
 
     return (
       <Card style={{background: `url(${this.props.post.image.url}) center center / cover no-repeat`}}>
         {/* <span>{post.description}</span> */}
         <CardDescription>
-          <span><EllipsisText text={this.props.post.description} length={160} /></span>
-          <span>{this.props.post.style}</span>
-          <span>{this.props.post.mobile}</span>
-          <span>{this.props.post.type}</span>
+          <TagWrapper>
+            <Tag>{this.props.post.style}</Tag>
+            <Tag>{this.props.post.mobile}</Tag>
+            <Tag>{this.props.post.type}</Tag>
+          </TagWrapper>
+          <Description><EllipsisText text={this.props.post.description} length={160} /></Description>
+          {/* <img src={image} alt={this.props.post.title} /> */}
         </CardDescription>
         <CardTitleWrapper>
           {/* <span>{index + 1}</span> */}

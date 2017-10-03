@@ -10,7 +10,6 @@ const Results = styled.section`
   display: flex;
   justify-content: center;
 `
-
 const Wrapper = styled.div`
   max-width: 1020px;
   width: 100%;
@@ -68,6 +67,7 @@ class CardList extends React.Component {
   }
 }
 
+
 const FeedQuery = gql`query allPosts {
   allPosts(orderBy: id_ASC) {
     id
@@ -89,74 +89,3 @@ const FeedQuery = gql`query allPosts {
 const ListPageWithData = graphql(FeedQuery)(CardList)
 
 export default ListPageWithData
-
-// function CardList ({ data: { loading, error, allPosts, _allPostsMeta }, loadMorePosts }) {
-//   if (error) return <ErrorMessage message='Error loading blueprints' />
-//   if (allPosts && allPosts.length) {
-//     const areMorePosts = allPosts.length < _allPostsMeta.count
-//     return (
-//       <Results>
-//         <Wrapper>
-//           <CardWrapper>
-//             {this.props.data.allPosts.map((post, index) =>
-//               <Card
-//                 key={post.id}
-//                 post={post}
-//                 refresh={() => this.props.data.refetch()}
-//               />
-//             )}
-//           </CardWrapper>
-//           {areMorePosts ? <button onClick={() => loadMorePosts()}> {loading ? 'Loading...' : 'Show More'} </button> : ''}
-//         </Wrapper>
-//       </Results>
-//     )
-//   }
-//   return <div>Loading</div>
-// }
-
-// const allPosts = gql`
-//   query allPosts($first: Int!, $skip: Int!) {
-//     allPosts(orderBy: createdAt_DESC, first: $first, skip: $skip) {
-//       id
-//       title
-//       votes
-//       url
-//       description
-//       createdAt
-//       image {
-//         id
-//         url
-//       }
-//     },
-//     _allPostsMeta {
-//       count
-//     }
-//   }
-// `
-//
-// export default graphql(allPosts, {
-//   options: {
-//     variables: {
-//       skip: 0,
-//       first: POSTS_PER_PAGE
-//     }
-//   },
-//   props: ({ data }) => ({
-//     data,
-//     loadMorePosts: () => {
-//       return data.fetchMore({
-//         variables: {
-//           skip: data.allPosts.length
-//         },
-//         updateQuery: (previousResult, { fetchMoreResult }) => {
-//           if (!fetchMoreResult) {
-//             return previousResult
-//           }
-//           return Object.assign({}, previousResult, {
-//             allPosts: [...previousResult.allPosts, ...fetchMoreResult.allPosts]
-//           })
-//         }
-//       })
-//     }
-//   })
-// })(CardList)
